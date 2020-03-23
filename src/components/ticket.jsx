@@ -21,16 +21,18 @@ const Ticket = ({
       }`}
     >
       <div className="font-bold text-blue-700">{Ticket_title}</div>
-      <h1 className="font-bold text-gray-700 py-2 text-xl">
+      <h1 className="font-bold text-gray-700 pt-2 text-xl">
         Ticket Number: {Ticket_number}
       </h1>
       <div className="flex text-gray-500">
         <h1 className="mr-4">Priority: {Priority}</h1>
         <h1>Status: {Status}</h1>
       </div>
-      <h2 className="py-2">{Ticket_type}</h2>
+      <h2 className="pt-4">{Ticket_type}</h2>
 
-      <h1 className="pb-2">Description: {Description}</h1>
+      <h1 className="pb-2">
+        <span className="font-medium">Description:</span> {Description}
+      </h1>
     </div>
   );
 };

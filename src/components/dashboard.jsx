@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Home, Key, Calendar, Settings } from "react-feather";
 import { Link } from "react-router-dom";
 
@@ -6,6 +6,10 @@ const Dashboard = () => {
   const [selectDash, setIsSelectedDash] = useState(false);
   const [selectCalendar, setIsSelectedCalendar] = useState(false);
   const [selectSetting, setIsSelectedSetting] = useState(false);
+
+  useEffect(() => {
+    setIsSelectedDash(true);
+  }, []);
 
   return (
     <>
