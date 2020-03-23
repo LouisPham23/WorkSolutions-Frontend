@@ -90,6 +90,9 @@ const Dashboard = () => {
             Sign Out
           </button>
         </div>
+        <span className="text-xs text-center block text-gray-600 p-12">
+          Built by Louis, Dat, Jared
+        </span>
       </div>
     </>
   );
