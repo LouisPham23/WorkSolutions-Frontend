@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Home, Key, Calendar, Settings } from "react-feather";
 import { Link } from "react-router-dom";
+import { TiGroup } from "react-icons/ti";
 
 const Dashboard = () => {
   const [selectDash, setIsSelectedDash] = useState(false);
   const [selectCalendar, setIsSelectedCalendar] = useState(false);
   const [selectSetting, setIsSelectedSetting] = useState(false);
+  const [selectTeam, setIsSelectedTeam] = useState(false);
 
   useEffect(() => {
     setIsSelectedDash(true);
   }, []);
 
   return (
-    <>
+    <div className="">
       <div className="px-2 pt-8 pb-16 ">
         <h1 className="font-bold text-lg text-center">
           WorksSolutions
@@ -30,6 +32,7 @@ const Dashboard = () => {
             setIsSelectedDash(true);
             setIsSelectedCalendar(false);
             setIsSelectedSetting(false);
+            setIsSelectedTeam(false);
           }}
         >
           <div className="">
@@ -51,6 +54,7 @@ const Dashboard = () => {
             setIsSelectedCalendar(true);
             setIsSelectedDash(false);
             setIsSelectedSetting(false);
+            setIsSelectedTeam(false);
           }}
         >
           <div className="">
@@ -65,13 +69,36 @@ const Dashboard = () => {
           </div>
         </div>
         <div
-          className={`flex sm:px-2 md:px-8 my-8 hover:text-gray-800 text-gray-600 lg:px-16 xl:px-18 ${
+          className={`flex sm:px-2 md:px-8 mt-8 hover:text-gray-800 text-gray-600 lg:px-16 xl:px-18 ${
+            selectTeam ? "border-r-4 border-indigo-500 text-gray-800" : ""
+          }`}
+          onClick={() => {
+            setIsSelectedSetting(false);
+            setIsSelectedCalendar(false);
+            setIsSelectedDash(false);
+            setIsSelectedTeam(true);
+          }}
+        >
+          <div className="">
+            <Link to="/team" className="flex justify-between">
+              <TiGroup
+                className={`h-6 w-6 text-indigo-200 ${
+                  selectTeam ? "text-indigo-500" : ""
+                }`}
+              />
+              <h1 className="font-bold pl-4 text-sm">Teams</h1>
+            </Link>
+          </div>
+        </div>
+        <div
+          className={`flex sm:px-2 md:px-8 mt-8 hover:text-gray-800 text-gray-600 lg:px-16 xl:px-18 ${
             selectSetting ? "border-r-4 border-indigo-500 text-gray-800" : ""
           }`}
           onClick={() => {
             setIsSelectedSetting(true);
             setIsSelectedCalendar(false);
             setIsSelectedDash(false);
+            setIsSelectedTeam(false);
           }}
         >
           <div className="">
@@ -94,7 +121,7 @@ const Dashboard = () => {
           Built by Louis, Dat, Jared
         </span>
       </div>
-    </>
+    </div>
   );
 };
 

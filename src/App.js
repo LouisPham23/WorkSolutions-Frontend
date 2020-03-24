@@ -7,6 +7,7 @@ import Dashboard from "./components/dashboard";
 import Dashboard_Page from "./pages/dashboard_page";
 import Calendar_page from "./pages/calendar_page";
 import Settings_page from "./pages/setting_page";
+import Team_page from "./pages/team_page";
 
 import { Calendar } from "react-feather";
 
@@ -22,6 +23,7 @@ function App() {
             <Route component={Dashboard_Page} path="/" exact />
             <Route component={Calendar_page} path="/calendar" exact />
             <Route component={Settings_page} path="/settings" exact />
+            <Route component={Team_page} path="/team" exact />
           </Switch>
         </div>
       </Router>

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import Ticket from "../components/ticket";
 
 const Dashboard_page = () => {
-  let url = "https://csc174proj.herokuapp.com/ticket";
+  // let url = "https://csc174proj.herokuapp.com/ticket";
+  let url = "http://localhost:3030/ticket";
 
   const [ticket, setTicket] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,7 +26,7 @@ const Dashboard_page = () => {
 
   return (
     <div className="">
-      <h1 className="font-bold px-4 mx-1 mt-8">Dashboard</h1>
+      <h1 className="font-bold px-4 mx-1 mt-8 mb-8 md:mb-0">Dashboard</h1>
       <div className="flex mb-8 justify-center">
         <input
           type="text"
