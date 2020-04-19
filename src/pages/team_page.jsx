@@ -12,12 +12,12 @@ const Team_page = () => {
 
   const getTeams = async () =>
     await fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        setTeams(data[0]);
+      .then((res) => res.json())
+      .then((data) => {
+        setTeams(data);
         setIsLoading(false);
       })
-      .catch(err => setErr(err));
+      .catch((err) => setErr(err));
 
   useEffect(() => {
     getTeams();
@@ -36,9 +36,9 @@ const Team_page = () => {
         </h1>
       ) : (
         <div className="flex flex-col">
-          {teams.map(team => (
-            <div className="bg-white px-2 py-4 mx-2 my-4">
-              <Team Name={team.Name} />
+          {teams.map((team) => (
+            <div className="bg-white px-2 py-4 mx-2 my-4 shadow-sm">
+              <Team Name={team.Team_name} />
             </div>
           ))}
         </div>

@@ -12,12 +12,12 @@ const Dashboard_page = () => {
 
   const getTickets = async () =>
     await fetch(url)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         setTicket(data);
         setIsLoading(false);
       })
-      .catch(err => setErr(err));
+      .catch((err) => setErr(err));
   console.log(ticket);
 
   useEffect(() => {
@@ -140,15 +140,16 @@ const Dashboard_page = () => {
         </h1>
       ) : (
         <div className="flex flex-col">
-          {ticket.map(ticket => (
+          {ticket.map((ticket) => (
             <Ticket
               Ticket_type={ticket.Ticket_type}
               key={ticket.Ticket_number}
               Ticket_number={ticket.Ticket_number}
               Priority={ticket.Priority}
               Description={ticket.Description}
-              Ticket_title={ticket.Ticket_title}
-              Status={ticket.Status}
+              Ticket_title={ticket.Title}
+              Status_Id={ticket.Status_Id}
+              Assigned_Date={ticket.Assigned_Date}
             />
           ))}
         </div>
