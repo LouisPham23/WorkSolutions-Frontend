@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Ticket from "../components/ticket";
+import Progress from "../components/top-loading-board/progress";
 
 const Dashboard_page = () => {
   // let url = "https://csc174proj.herokuapp.com/ticket";
-  let url = "http://localhost:3030/ticket";
 
-  const [ticket, setTicket] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [err, setErr] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const getTickets = async () =>
+  const [ticket, setTicket] = useState([]);
+
+  let url = "http://localhost:3030/ticket";
+  const getTickets = async () => {
     await fetch(url)
       .then((res) => res.json())
       .then((data) => {
@@ -18,14 +20,20 @@ const Dashboard_page = () => {
         setIsLoading(false);
       })
       .catch((err) => setErr(err));
-  console.log(ticket);
-
+  };
   useEffect(() => {
     getTickets();
   }, []);
 
+  const [showSelectDropDown, setShowSelectDropDown] = useState(false);
+  const [dropDown, setDropDown] = useState("");
+  const HandleDropdownChange = (e) => {
+    setDropDown(e.target.value);
+  };
+
   return (
     <div className="">
+      <Progress isAnimating={isLoading} />
       <h1 className="font-bold px-4 mx-1 mt-8 mb-8 md:mb-0">Dashboard</h1>
       <div className="flex mb-8 justify-center">
         <input
@@ -36,11 +44,40 @@ const Dashboard_page = () => {
           className="transition-colors duration-100 ease-in-out focus:outline-0 border border-transparent focus:bg-white focus:border-gray-300 placeholder-gray-600 rounded-lg bg-gray-300 px-4 outline-none mx-8 leading-normal"
         />
         <button
-          className="btn bg-white hover:bg-gray-400 outline-none"
+          className="btn bg-white hover:bg-gray-400 outline-none mr-8"
           onClick={() => setModalOpen(true)}
         >
           Create Ticket
         </button>
+        <div
+          className="dropdown inline-block relative"
+          onClick={() => {
+            setShowSelectDropDown(!showSelectDropDown);
+          }}
+        >
+          <button className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
+            <span className="mr-1">Ticket Type</span>
+            <svg
+              className="fill-current h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />{" "}
+            </svg>
+          </button>
+          {showSelectDropDown ? null : (
+            <ul
+              className="dropdown-menu text-gray-700 pt-1 absolute bg-gray-200 py-2 px-2 mt-1 rounded w-full text-center"
+              defaultValue="All"
+              onChange={(e) => HandleDropdownChange(e)}
+            >
+              <li className="py-1 mt-1 hover:bg-white rounded">All</li>
+              <li className="py-1 hover:bg-white rounded">Incident</li>
+              <li className="py-1 mt-1 hover:bg-white rounded">Request</li>
+            </ul>
+          )}
+        </div>
+
         <div
           className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center ${
             modalOpen ? "opacity-100" : "opacity-0 pointer-events-none "
@@ -141,16 +178,7 @@ const Dashboard_page = () => {
       ) : (
         <div className="flex flex-col">
           {ticket.map((ticket) => (
-            <Ticket
-              Ticket_type={ticket.Ticket_type}
-              key={ticket.Ticket_number}
-              Ticket_number={ticket.Ticket_number}
-              Priority={ticket.Priority}
-              Description={ticket.Description}
-              Ticket_title={ticket.Title}
-              Status_Id={ticket.Status_Id}
-              Assigned_Date={ticket.Assigned_Date}
-            />
+            <Ticket ticket={ticket} key={ticket.Ticket_number} />
           ))}
         </div>
       )}
