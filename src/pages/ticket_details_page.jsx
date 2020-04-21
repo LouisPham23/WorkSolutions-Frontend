@@ -25,7 +25,7 @@ const TicketDetails = (props) => {
   useEffect(() => {
     getTicket();
   }, []);
-  console.log(loading);
+
   let ticket_status = "";
   switch (Ticket.Status_Id) {
     case 1:
@@ -41,7 +41,6 @@ const TicketDetails = (props) => {
       return ticket_status;
   }
 
-  console.log(Ticket);
   return (
     <div>
       <Progress isAnimating={loading} />
@@ -74,7 +73,9 @@ const TicketDetails = (props) => {
             <h1 className="text-sm inline-block">
               Priority: {Ticket.Priority}
             </h1>
-            <h1 className="font-bold text-lg">{Ticket.Title}</h1>
+            <h1 className="font-bold text-lg">
+              {Ticket.Title} ({Ticket.Ticket_type})
+            </h1>
             <div>
               <h1 className="pt-2 inline-block mr-4 text-gray-600">
                 Open date:{" "}

@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import Ticket from "../components/ticket";
 import Progress from "../components/top-loading-board/progress";
+import { useForm } from "react-hook-form";
 
 const Dashboard_page = () => {
-  // let url = "https://csc174proj.herokuapp.com/ticket";
-
   const [isLoading, setIsLoading] = useState(true);
   const [err, setErr] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
   const [ticket, setTicket] = useState([]);
 
-  let url = "http://localhost:3030/ticket";
+  let url = "";
+  if (process.env === "development") {
+    url = `http://localhost:3030/ticket/`;
+  } else {
+    url = `https://csc174proj.herokuapp.com/ticket/`;
+  }
+
   const getTickets = async () => {
     await fetch(url)
       .then((res) => res.json())
@@ -25,10 +30,34 @@ const Dashboard_page = () => {
     getTickets();
   }, []);
 
+  //Ticket filter dropdown handler
   const [showSelectDropDown, setShowSelectDropDown] = useState(false);
   const [dropDown, setDropDown] = useState("");
   const HandleDropdownChange = (e) => {
     setDropDown(e.target.value);
+  };
+
+  //Create ticket form handler
+  const createTicket = async (url, data) => {
+    await fetch(`http://localhost:3030/ticket/`, {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        console.log(data.sqlMessage);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+  const { register, handleSubmit, errors } = useForm();
+  const onSubmit = (data) => {
+    createTicket(url, data);
   };
 
   return (
@@ -44,12 +73,12 @@ const Dashboard_page = () => {
           className="transition-colors duration-100 ease-in-out focus:outline-0 border border-transparent focus:bg-white focus:border-gray-300 placeholder-gray-600 rounded-lg bg-gray-300 px-4 outline-none mx-8 leading-normal"
         />
         <button
-          className="btn bg-white hover:bg-gray-400 outline-none mr-8"
+          className="btn bg-white hover:bg-gray-400 focus:outline-none mr-8"
           onClick={() => setModalOpen(true)}
         >
           Create Ticket
         </button>
-        <div
+        {/* <div
           className="dropdown inline-block relative"
           onClick={() => {
             setShowSelectDropDown(!showSelectDropDown);
@@ -76,7 +105,7 @@ const Dashboard_page = () => {
               <li className="py-1 mt-1 hover:bg-white rounded">Request</li>
             </ul>
           )}
-        </div>
+        </div> */}
 
         <div
           className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center ${
@@ -84,7 +113,6 @@ const Dashboard_page = () => {
           }`}
         >
           <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-
           <div className="modal-container bg-white w-11/12 md:max-w-lg mx-auto rounded-lg shadow-lg z-40 overflow-y-auto">
             <div
               onClick={() => setModalOpen(false)}
@@ -101,7 +129,10 @@ const Dashboard_page = () => {
               </svg>
             </div>
 
-            <form className="modal-content text-left">
+            <form
+              className="modal-content text-left"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <div className="flex justify-between items-center pb-3 py-4 px-6">
                 <p className="text-xl font-semibold">Create a new ticket</p>
                 <div
@@ -120,38 +151,108 @@ const Dashboard_page = () => {
                 </div>
               </div>
 
-              <div className="bg-gray-100 py-4 px-6">
+              <div className="bg-white py-4 px-6">
                 <div className="mb-4">
                   <label
-                    htmlFor="ticket_title"
+                    htmlFor="Title"
                     className="block text-gray-900 leading-tight"
                   >
-                    Ticket Title
+                    Title
                   </label>
                   <input
-                    required
-                    className="mt-2 block w-full border-2 border-gray-300 rounded-lg bg-white px-3 py-2 leading-tight focus:outline-none focus:border-indigo-400"
-                    id="ticket_title"
-                    name="ticket_title"
+                    ref={register({ required: true })}
+                    className="mt-2 block w-full bg-gray-200 focus:bg-gray-100 rounded-lg bg-white px-3 py-2 leading-tight focus:outline-none "
+                    name="Title"
+                    type="text"
+                  />
+                  {errors.Title && (
+                    <h1 className="pt-1 text-red-600">
+                      First name is required*
+                    </h1>
+                  )}
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="Priority"
+                    className="block text-gray-900 leading-tight"
+                  >
+                    Priority
+                  </label>
+                  <select
+                    name="Priority"
+                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 mt-2 rounded leading-tight focus:outline-none focus:bg-white"
+                    ref={register({ required: true })}
+                    defaultValue="1"
+                  >
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="Ticket_type"
+                    className="block text-gray-900 leading-tight"
+                  >
+                    Ticket Type
+                  </label>
+                  <select
+                    ref={register({ require: true })}
+                    name="Ticket_type"
+                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 mt-2 rounded leading-tight focus:outline-none focus:bg-white"
+                    defaultValue="R"
+                  >
+                    <option value="R">Request</option>
+                    <option value="I">Incident</option>
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="Created_By"
+                    className="block text-gray-900 leading-tight"
+                  >
+                    Created by:
+                  </label>
+                  <input
+                    ref={register()}
+                    className="mt-2 block w-full rounded-lg bg-white px-3 py-2 leading-tight focus:outline-none bg-gray-200 focus:bg-gray-100 "
+                    name="Created_By"
                     type="text"
                   />
                 </div>
                 <div className="mb-4">
                   <label
-                    htmlFor="comments"
+                    htmlFor="Deadline_Date"
                     className="block text-gray-900 leading-tight"
                   >
-                    Ticket Description
+                    Deadline date:
                   </label>
-
-                  <textarea
-                    required
-                    className="mt-2 block w-full border-2 border-gray-300 rounded-lg bg-white px-3 py-2 leading-tight focus:outline-none focus:border-indigo-400"
-                    id="comments"
-                    rows="4"
-                    cols="50"
-                    name="comments"
+                  <input
+                    ref={register()}
+                    className="mt-2 block w-full rounded-lg bg-white px-3 py-2 leading-tight focus:outline-none bg-gray-200 focus:bg-gray-100 "
+                    name="Deadline_Date"
+                    type="date"
                   />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="Deadline_Date"
+                    className="block text-gray-900 leading-tight"
+                  >
+                    Description:
+                  </label>
+                  <textarea
+                    ref={register({ required: true })}
+                    className="mt-2 block w-full rounded-lg bg-white px-3 py-2 leading-tight focus:outline-none bg-gray-200 focus:bg-gray-100 "
+                    name="Description"
+                    type="text"
+                    rows="5"
+                  ></textarea>
+                  {errors.Description && (
+                    <h1 className="pt-1 text-red-600">
+                      Description is required*
+                    </h1>
+                  )}
                 </div>
 
                 <div className="flex justify-end my-4">
@@ -159,7 +260,7 @@ const Dashboard_page = () => {
                     type="submit"
                     className="w-full bg-indigo-500 hover:bg-indigo-600 py-3 px-6 rounded-lg font-semibold text-white"
                   >
-                    Submit
+                    Create
                   </button>
                 </div>
               </div>

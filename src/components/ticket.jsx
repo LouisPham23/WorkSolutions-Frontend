@@ -3,6 +3,15 @@ import Moment from "react-moment";
 import { Link } from "react-router-dom";
 
 const Ticket = ({ ticket }) => {
+  let ticket_type = "";
+
+  if (ticket.Ticket_type === "I") {
+    ticket_type = "Incident";
+  } else if (ticket.Ticket_type === "R") {
+    ticket_type = "Request";
+  } else {
+    ticket_type = ticket.Ticket_type;
+  }
   return (
     <Link to={`/ticket/${ticket.Ticket_number}`}>
       <div
@@ -23,7 +32,7 @@ const Ticket = ({ ticket }) => {
             </div>
             <div className="flex text-gray-500">
               <h1 className="mr-4 mb-2">Priority: {ticket.Priority}</h1>
-              <h1>Type: {ticket.Ticket_type}</h1>
+              <h1>Type: {ticket_type}</h1>
             </div>
             <div>
               <h1>
