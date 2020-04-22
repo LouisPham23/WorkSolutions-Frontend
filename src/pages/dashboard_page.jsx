@@ -38,7 +38,7 @@ const Dashboard_page = () => {
   };
 
   //Create ticket form handler
-  const createTicket = async (url, data) => {
+  const createTicket = async (data) => {
     await fetch(`http://localhost:3030/ticket/`, {
       method: "POST", // or 'PUT'
       headers: {
@@ -50,18 +50,22 @@ const Dashboard_page = () => {
         response.json();
         if (response.ok) {
           getTickets();
+          setCreateTicketLoading(true);
         }
+      })
+      .then(() => {
+        setModalOpen(false);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
+  const [createTicketLoading, setCreateTicketLoading] = useState(false);
 
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
-    createTicket(url, data);
+    createTicket(data);
   };
-
   return (
     <div className="">
       <Progress isAnimating={isLoading} />
@@ -168,9 +172,7 @@ const Dashboard_page = () => {
                     type="text"
                   />
                   {errors.Title && (
-                    <h1 className="pt-1 text-red-600">
-                      First name is required*
-                    </h1>
+                    <h1 className="pt-1 text-red-600">Title is required*</h1>
                   )}
                 </div>
                 <div className="mb-4">
@@ -235,6 +237,11 @@ const Dashboard_page = () => {
                     name="Deadline_Date"
                     type="date"
                   />
+                  {errors.Deadline_Date && (
+                    <h1 className="pt-1 text-red-600">
+                      Deadline date is required*
+                    </h1>
+                  )}
                 </div>
                 <div className="mb-4">
                   <label
@@ -262,7 +269,7 @@ const Dashboard_page = () => {
                     type="submit"
                     className="w-full bg-indigo-500 hover:bg-indigo-600 py-3 px-6 rounded-lg font-semibold text-white"
                   >
-                    Create
+                    {createTicketLoading ? "Complete" : "Create"}
                   </button>
                 </div>
               </div>
