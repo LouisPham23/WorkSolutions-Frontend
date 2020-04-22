@@ -24,8 +24,9 @@ const TicketDetails = (props) => {
 
   useEffect(() => {
     getTicket();
-  }, []);
+  }, [ticket_number]);
 
+  console.log(Ticket);
   let ticket_status = "";
   switch (Ticket.Status_Id) {
     case 1:

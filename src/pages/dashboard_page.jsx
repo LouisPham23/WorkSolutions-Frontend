@@ -46,15 +46,17 @@ const Dashboard_page = () => {
       },
       body: JSON.stringify(data),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        console.log(data.sqlMessage);
+      .then((response) => {
+        response.json();
+        if (response.ok) {
+          getTickets();
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
+
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
     createTicket(url, data);
