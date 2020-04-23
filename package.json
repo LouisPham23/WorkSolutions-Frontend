@@ -4,6 +4,9 @@
   "engines": {
     "node": "12.16.1"
   },
+  "resolutions": {
+    "@babel/preset-env": "^7.8.7"
+  },
   "private": true,
   "dependencies": {
     "@tanem/react-nprogress": "^3.0.23",
@@ -45,6 +48,6 @@
     ]
   },
   "devDependencies": {
-    "@babel/compat-data": "^7.9.0"
+    "@babel/compat-data": "~7.8.0"
   }
 }

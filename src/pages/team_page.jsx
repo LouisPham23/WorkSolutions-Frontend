@@ -3,8 +3,12 @@ import { useState } from "react";
 import Team from "../components/team";
 
 const Team_page = () => {
-  // let url = "https://csc174proj.herokuapp.com/team";
-  let url = "http://localhost:3030/team";
+  let url = "";
+  if (process.env === "development") {
+    url = `http://localhost:3030/team`;
+  } else {
+    url = `https://csc174proj.herokuapp.com/team/`;
+  }
 
   const [teams, setTeams] = useState([]);
   const [loading, setIsLoading] = useState(false);

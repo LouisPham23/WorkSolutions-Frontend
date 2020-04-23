@@ -39,7 +39,14 @@ const Dashboard_page = () => {
 
   //Create ticket form handler
   const createTicket = async (data) => {
-    await fetch(`http://localhost:3030/ticket/`, {
+    // let url = "";
+    // if (process.env === "development") {
+    //   url = `http://localhost:3030/ticket/`;
+    // } else {
+    //   url = `https://csc174proj.herokuapp.com/ticket/`;
+    // }
+
+    await fetch(url, {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
