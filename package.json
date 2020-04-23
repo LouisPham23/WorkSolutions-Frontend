@@ -1,6 +1,9 @@
 {
   "name": "front_end",
   "version": "0.1.0",
+  "engines": {
+    "node": "12.16.1"
+  },
   "private": true,
   "dependencies": {
     "@tanem/react-nprogress": "^3.0.23",
