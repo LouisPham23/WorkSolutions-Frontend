@@ -11,7 +11,13 @@ const TicketDetails = (props) => {
   const [err, setErr] = useState(false);
 
   let ticket_number = props.match.params.id;
-  let url = `http://localhost:3030/ticket/${ticket_number}`;
+
+  let url = "";
+  if (process.env === "development") {
+    url = `http://localhost:3030/ticket/${ticket_number}`;
+  } else {
+    url = `https://csc174proj.herokuapp.com/ticket/${ticket_number}`;
+  }
 
   const getTicket = async () =>
     await fetch(url)
