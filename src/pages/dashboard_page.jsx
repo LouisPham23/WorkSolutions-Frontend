@@ -21,7 +21,7 @@ const Dashboard_page = () => {
     await fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        setTicket(data);
+        setTicket(data.reverse());
         setIsLoading(false);
       })
       .catch((err) => setErr(err));
