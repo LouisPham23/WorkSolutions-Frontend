@@ -45,12 +45,7 @@ const Team_page = () => {
       ) : (
         <div className="flex flex-col">
           {teams.map((team) => (
-            <div
-              className="bg-white px-2 py-4 mx-2 my-4 shadow-sm"
-              key={team.Team_Id}
-            >
-              <Team Name={team.Team_name} Members={team.Members} />
-            </div>
+            <Team team={team} key={team.Team_Id} />
           ))}
         </div>
       )}

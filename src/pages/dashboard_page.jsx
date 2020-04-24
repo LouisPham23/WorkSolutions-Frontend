@@ -9,16 +9,17 @@ const Dashboard_page = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const [ticket, setTicket] = useState([]);
+  const [emps, setEmps] = useState([]);
 
   let url = "";
   if (process.env.NODE_ENV === "development") {
-    url = `http://localhost:3030/ticket/`;
+    url = `http://localhost:3030`;
   } else {
-    url = `https://csc174proj.herokuapp.com/ticket/`;
+    url = `https://csc174proj.herokuapp.com`;
   }
 
   const getTickets = async () => {
-    await fetch(url)
+    await fetch(`${url}/ticket/`)
       .then((res) => res.json())
       .then((data) => {
         setTicket(data.reverse());
@@ -26,9 +27,21 @@ const Dashboard_page = () => {
       })
       .catch((err) => setErr(err));
   };
+
   useEffect(() => {
     getTickets();
+    getEmployees();
   }, []);
+
+  const getEmployees = async () => {
+    await fetch(`${url}/employee/`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setEmps(data);
+      })
+      .catch((err) => setErr(err));
+  };
 
   //Ticket filter dropdown handler
   const [showSelectDropDown, setShowSelectDropDown] = useState(false);
@@ -46,7 +59,7 @@ const Dashboard_page = () => {
     //   url = `https://csc174proj.herokuapp.com/ticket/`;
     // }
 
-    await fetch(url, {
+    await fetch(`${url}/ticket/`, {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
@@ -224,12 +237,25 @@ const Dashboard_page = () => {
                   >
                     Created by:
                   </label>
-                  <input
+                  <select
+                    ref={register({ require: true })}
+                    name="Created_By"
+                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 mt-2 rounded leading-tight focus:outline-none focus:bg-white"
+                  >
+                    {emps.map((emp) => {
+                      return (
+                        <option value={emp.Employee_Id} key={emp.Employee_Id}>
+                          {emp.First_name + emp.Last_name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {/* <input
                     ref={register()}
                     className="mt-2 block w-full rounded-lg bg-white px-3 py-2 leading-tight focus:outline-none bg-gray-200 focus:bg-gray-100 "
                     name="Created_By"
                     type="text"
-                  />
+                  /> */}
                 </div>
                 <div className="mb-4">
                   <label
@@ -239,7 +265,7 @@ const Dashboard_page = () => {
                     Deadline date:
                   </label>
                   <input
-                    ref={register()}
+                    ref={register({ required: true })}
                     className="mt-2 block w-full rounded-lg bg-white px-3 py-2 leading-tight focus:outline-none bg-gray-200 focus:bg-gray-100 "
                     name="Deadline_Date"
                     type="date"

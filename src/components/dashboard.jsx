@@ -80,7 +80,7 @@ const Dashboard = () => {
           }}
         >
           <div className="">
-            <Link to="/team" className="flex justify-between">
+            <Link to="/teams" className="flex justify-between">
               <TiGroup
                 className={`h-6 w-6 text-indigo-200 ${
                   selectTeam ? "text-indigo-500" : ""

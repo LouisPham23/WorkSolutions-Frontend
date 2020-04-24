@@ -9,6 +9,7 @@ import Calendar_page from "./pages/calendar_page";
 import Settings_page from "./pages/setting_page";
 import Team_page from "./pages/team_page";
 import TicketDetails from "./pages/ticket_details_page";
+import TeamDetails from "./pages/team_detail_page";
 
 function App() {
   return (
@@ -22,8 +23,9 @@ function App() {
             <Route component={Dashboard_Page} path="/" exact />
             <Route component={Calendar_page} path="/calendar" />
             <Route component={Settings_page} path="/settings" />
-            <Route component={Team_page} path="/team" />
+            <Route component={Team_page} path="/teams" />
             <Route component={TicketDetails} path="/ticket/:id" />
+            <Route component={TeamDetails} path="/team/:id" />
           </Switch>
         </div>
       </Router>
