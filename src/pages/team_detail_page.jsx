@@ -1,55 +1,141 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft } from "react-feather";
+import { useForm } from "react-hook-form";
 
 const Team_detail_page = (props) => {
-  const [members, setMembers] = useState([]);
   const [loading, setIsLoading] = useState(true);
   const [err, setErr] = useState(false);
+  const [emps, setEmps] = useState([]);
+  const [notInTeam, setNotInTeam] = useState([]);
 
   let team_path = props.match.params.id;
   let url = "";
   if (process.env.NODE_ENV === "development") {
-    url = `http://localhost:3030/team/${team_path}`;
+    url = `http://localhost:3030`;
   } else {
-    url = `https://csc174proj.herokuapp.com/team/${team_path}`;
+    url = `https://csc174proj.herokuapp.com`;
   }
 
-  const getTeam = async () =>
-    await fetch(url)
+  const getMembers = async () =>
+    await fetch(`${url}/team/${team_path}`)
       .then((res) => res.json())
       .then((data) => {
-        setMembers(data);
+        setEmps(data);
+        setIsLoading(false);
+      })
+      .catch((err) => setErr(err));
+
+  const getMembersNotInTeam = async () =>
+    await fetch(`${url}/team/${team_path}/not`)
+      .then((res) => res.json())
+      .then((data) => {
+        setNotInTeam(data[0]);
         console.log(data);
         setIsLoading(false);
       })
       .catch((err) => setErr(err));
 
+  const addMember = async (data) => {
+    let actual_data = { ...data, Team_Id: team_path };
+    console.log(actual_data);
+    await fetch(`${url}/team_employee`, {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(actual_data),
+    })
+      .then((response) => {
+        response.json();
+        getMembers();
+      })
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
   useEffect(() => {
-    getTeam();
+    getMembers();
+    getMembersNotInTeam();
   }, [team_path]);
 
+  const [menu, setMenu] = useState(false);
+  const { register, handleSubmit, errors } = useForm();
+  const onSubmit = (data) => {
+    addMember(data);
+  };
   return (
     <div>
-      <button
-        className="bg-gray-300 hover:bg-gray-500 py-1 rounded px-3 mt-20 ml-4 outline-none"
-        onClick={() => {
-          props.history.goBack();
-        }}
-      >
-        <ArrowLeft className="inline-block mr-2" />
-        Back
-      </button>
+      <div className="flex justify-between">
+        <button
+          className="bg-gray-300 hover:bg-gray-500 py-1 rounded px-3 mt-20 ml-4 outline-none"
+          onClick={() => {
+            props.history.goBack();
+          }}
+        >
+          <ArrowLeft className="inline-block mr-2" />
+          Back
+        </button>
+        <button
+          className="bg-gray-300 hover:bg-gray-500 py-1 rounded px-3 mt-20 mr-4 outline-none"
+          onClick={() => setMenu(!menu)}
+        >
+          Add Member
+        </button>
+        {menu ? (
+          <div className="absolute top-0 right-0 mt-32 mr-2">
+            <div className="mr-2 py-2 w-48 bg-white rounded-lg shadow-xl">
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="bg-white px-4">
+                  <div className="mt-1 mb-2">
+                    <label
+                      htmlFor="Title"
+                      className="block text-gray-900 leading-tight text-center"
+                    >
+                      Member Name
+                    </label>
+                    <select
+                      ref={register({ require: true })}
+                      name="Employee_Id"
+                      className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 mt-2 rounded leading-tight focus:outline-none focus:bg-white"
+                    >
+                      {notInTeam.map((emp) => {
+                        return (
+                          <option value={emp.Employee_Id} key={emp.Employee_Id}>
+                            {emp.First_name + " " + emp.Last_name}
+                          </option>
+                        );
+                      })}
+                    </select>
+                    {errors.Title && (
+                      <h1 className="pt-1 text-red-600">Name is required*</h1>
+                    )}
+                  </div>
+                </div>
+                <button
+                  className="bg-gray-300 hover:bg-gray-500 py-1 px-2 rounded outline-none ml-32"
+                  type="submit"
+                >
+                  Add
+                </button>
+              </form>
+            </div>
+          </div>
+        ) : null}
+      </div>
       {err ? (
         <h1 className="px-4 rounded mx-4 py-4 mt-4 bg-red-200 text-red-900">
           Error loading team, please contact server
         </h1>
       ) : loading ? (
-        <h1 className="px-2 rounded mx-4 py-4 bg-indigo-200 text-indigo-900">
+        <h1 className="px-2 rounded mx-4 py-4 mt-8 bg-indigo-200 text-indigo-900">
           Loading team...
         </h1>
       ) : (
         <div className="mt-8">
-          {members.map((member) => {
+          {emps.map((member) => {
             return (
               <div
                 className="px-4 py-4 bg-white mx-4 rounded flex justify-between mt-4 mb-4"

@@ -37,7 +37,7 @@ const Dashboard_page = () => {
     await fetch(`${url}/employee/`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setEmps(data);
       })
       .catch((err) => setErr(err));
