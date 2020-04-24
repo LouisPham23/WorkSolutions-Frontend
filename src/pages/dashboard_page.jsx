@@ -11,7 +11,7 @@ const Dashboard_page = () => {
   const [ticket, setTicket] = useState([]);
 
   let url = "";
-  if (process.env === "development") {
+  if (process.env.NODE_ENV === "development") {
     url = `http://localhost:3030/ticket/`;
   } else {
     url = `https://csc174proj.herokuapp.com/ticket/`;
