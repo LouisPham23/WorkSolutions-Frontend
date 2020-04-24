@@ -3,25 +3,29 @@ import { useState } from "react";
 import Team from "../components/team";
 
 const Team_page = () => {
-  let url = "";
-  if (process.env === "development") {
-    url = `http://localhost:3030/team`;
-  } else {
-    url = `https://csc174proj.herokuapp.com/team/`;
-  }
-
   const [teams, setTeams] = useState([]);
   const [loading, setIsLoading] = useState(false);
   const [err, setErr] = useState(false);
 
-  const getTeams = async () =>
-    await fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        setTeams(data);
+  const getTeams = () => {
+    let url = "";
+    if (process.env.NODE_ENV === "development") {
+      url = `http://localhost:3030/team`;
+    } else {
+      url = `https://csc174proj.herokuapp.com/team/`;
+    }
+    fetch(url, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        setTeams(result[0]);
         setIsLoading(false);
       })
-      .catch((err) => setErr(err));
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   useEffect(() => {
     getTeams();
@@ -41,8 +45,11 @@ const Team_page = () => {
       ) : (
         <div className="flex flex-col">
           {teams.map((team) => (
-            <div className="bg-white px-2 py-4 mx-2 my-4 shadow-sm">
-              <Team Name={team.Team_name} key={team.Team_Id} />
+            <div
+              className="bg-white px-2 py-4 mx-2 my-4 shadow-sm"
+              key={team.Team_Id}
+            >
+              <Team Name={team.Team_name} Members={team.Members} />
             </div>
           ))}
         </div>
