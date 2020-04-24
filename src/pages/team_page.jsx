@@ -9,7 +9,7 @@ const Team_page = () => {
 
   const getTeams = () => {
     let url = "";
-    if (process.env.NODE_ENV === "development") {
+    if (process.env === "development") {
       url = `http://localhost:3030/team`;
     } else {
       url = `https://csc174proj.herokuapp.com/team/`;
