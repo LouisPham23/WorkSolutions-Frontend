@@ -6,7 +6,7 @@ const Team_detail_page = (props) => {
   const [loading, setIsLoading] = useState(true);
   const [err, setErr] = useState(false);
   const [emps, setEmps] = useState([]);
-  const [notInTeam, setNotInTeam] = useState([]);
+  const [allEmps, setAllEmps] = useState([]);
 
   let team_path = props.match.params.id;
   let url = "";
@@ -21,44 +21,53 @@ const Team_detail_page = (props) => {
       .then((res) => res.json())
       .then((data) => {
         setEmps(data);
-        setIsLoading(false);
-      })
-      .catch((err) => setErr(err));
-
-  const getMembersNotInTeam = async () =>
-    await fetch(`${url}/team/${team_path}/not`)
-      .then((res) => res.json())
-      .then((data) => {
-        setNotInTeam(data[0]);
         console.log(data);
         setIsLoading(false);
       })
       .catch((err) => setErr(err));
 
-  const addMember = async (data) => {
+  const getAllEmployees = async () => {
+    await fetch(`${url}/employee`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setAllEmps(data);
+        setIsLoading(false);
+      })
+      .catch((err) => setErr(err));
+  };
+
+  const [addMemberError, setAddMemberError] = useState("");
+
+  const addMember = (data) => {
     let actual_data = { ...data, Team_Id: team_path };
     console.log(actual_data);
-    await fetch(`${url}/team_employee`, {
+    fetch(`${url}/team_employee`, {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(actual_data),
     })
-      .then((response) => {
-        response.json();
-        getMembers();
-      })
+      .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
+        if (data.sqlState == "45000") {
+          setAddMemberError(data.sqlMessage);
+          console.log("Input error:", data);
+        } else {
+          setAddMemberError("");
+          getMembers();
+          console.log("Success:", data);
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
+
   useEffect(() => {
     getMembers();
-    getMembersNotInTeam();
+    getAllEmployees();
   }, [team_path]);
 
   const [menu, setMenu] = useState(false);
@@ -101,7 +110,7 @@ const Team_detail_page = (props) => {
                       name="Employee_Id"
                       className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 mt-2 rounded leading-tight focus:outline-none focus:bg-white"
                     >
-                      {notInTeam.map((emp) => {
+                      {allEmps.map((emp) => {
                         return (
                           <option value={emp.Employee_Id} key={emp.Employee_Id}>
                             {emp.First_name + " " + emp.Last_name}
@@ -135,6 +144,14 @@ const Team_detail_page = (props) => {
         </h1>
       ) : (
         <div className="mt-8">
+          <h1 className="font-bold text-2xl text-center pt-4">
+            {emps[0].Team_name}
+          </h1>
+          {addMemberError ? (
+            <div className="px-2 py-2 my-2 text-semibold text-red-700 text-center bg-red-200 mx-4 rounded">
+              {addMemberError}
+            </div>
+          ) : null}
           {emps.map((member) => {
             return (
               <div
