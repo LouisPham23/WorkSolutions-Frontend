@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Home, Key, Calendar, Settings } from "react-feather";
+import { Home, Key, Calendar, Settings, User } from "react-feather";
 import { Link } from "react-router-dom";
 import { TiGroup } from "react-icons/ti";
-
+import { Users } from "react-feather";
 const Dashboard = () => {
   const [selectDash, setIsSelectedDash] = useState(false);
   const [selectCalendar, setIsSelectedCalendar] = useState(false);
@@ -58,13 +58,13 @@ const Dashboard = () => {
           }}
         >
           <div className="">
-            <Link to="/calendar" className="flex justify-between">
-              <Calendar
+            <Link to="/users" className="flex justify-between">
+              <Users
                 className={`h-6 w-6 text-indigo-200 ${
                   selectCalendar ? "text-indigo-500" : ""
                 }`}
               />
-              <h1 className="font-bold pl-4 text-sm">Calendar</h1>
+              <h1 className="font-bold pl-4 text-sm">Users</h1>
             </Link>
           </div>
         </div>
