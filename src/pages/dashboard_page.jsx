@@ -245,7 +245,7 @@ const Dashboard_page = () => {
                     {emps.map((emp) => {
                       return (
                         <option value={emp.Employee_Id} key={emp.Employee_Id}>
-                          {emp.First_name + emp.Last_name}
+                          {emp.First_name + " " + emp.Last_name}
                         </option>
                       );
                     })}

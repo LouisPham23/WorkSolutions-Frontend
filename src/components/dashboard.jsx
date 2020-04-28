@@ -64,7 +64,7 @@ const Dashboard = () => {
                   selectCalendar ? "text-indigo-500" : ""
                 }`}
               />
-              <h1 className="font-bold pl-4 text-sm">Users</h1>
+              <h1 className="font-bold pl-4 text-sm">Employees</h1>
             </Link>
           </div>
         </div>

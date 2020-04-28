@@ -39,10 +39,10 @@ const Team_detail_page = (props) => {
 
   const [addMemberError, setAddMemberError] = useState("");
 
-  const addMember = (data) => {
+  const addMember = async (data) => {
     let actual_data = { ...data, Team_Id: team_path };
     console.log(actual_data);
-    fetch(`${url}/team_employee`, {
+    await fetch(`${url}/team_employee`, {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
