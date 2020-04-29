@@ -117,7 +117,7 @@ const Dashboard = () => {
             Sign Out
           </button>
         </div> */}
-        <span className="text-xs text-center block text-gray-600 p-12">
+        <span className="text-xs text-center block text-gray-600 absolute p-16 bottom-0 left-0">
           Built by Louis, Dat, Jared
         </span>
       </div>
