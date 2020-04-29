@@ -7,14 +7,14 @@ const Team_page = () => {
   const [loading, setIsLoading] = useState(false);
   const [err, setErr] = useState(false);
 
-  const getTeams = async () => {
+  const getTeams = () => {
     let url = "";
     if (process.env.NODE_ENV === "development") {
       url = `http://localhost:3030/team`;
     } else {
       url = `https://csc174proj.herokuapp.com/team/`;
     }
-    await fetch(url, {
+    fetch(url, {
       method: "GET",
     })
       .then((response) => response.json())

@@ -21,11 +21,11 @@ function App() {
         <div className="w-3/4 min-h-screen bg-gray-100 xl:w-4/5">
           <Switch>
             <Route component={Dashboard_Page} path="/" exact />
-            <Route component={Users_page} path="/users" />
-            <Route component={Settings_page} path="/settings" />
-            <Route component={Team_page} path="/teams" />
-            <Route component={TicketDetails} path="/ticket/:id" />
-            <Route component={TeamDetails} path="/team/:id" />
+            <Route component={Users_page} path="/users" exact />
+            <Route component={Settings_page} path="/settings" exact />
+            <Route component={Team_page} path="/teams" exact />
+            <Route component={TicketDetails} path="/ticket/:id" exact />
+            <Route component={TeamDetails} path="/team/:id" exact />
           </Switch>
         </div>
       </Router>

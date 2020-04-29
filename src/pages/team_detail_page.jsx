@@ -144,19 +144,19 @@ const Team_detail_page = (props) => {
         </h1>
       ) : (
         <div className="mt-8">
-          <h1 className="font-bold text-2xl text-center pt-4">
-            {emps[0].Team_name}
-          </h1>
           {addMemberError ? (
             <div className="px-2 py-2 my-2 text-semibold text-red-700 text-center bg-red-200 mx-4 rounded">
               {addMemberError}
             </div>
           ) : null}
+          <h1 className="font-bold text-2xl text-center pt-4">
+            {emps[0].Team_name}
+          </h1>
           {emps.map((member) => {
             return (
               <div
                 className="px-4 py-4 bg-white mx-4 rounded flex justify-between mt-4 mb-4"
-                key={member.First_name}
+                key={member.Employee_Id}
               >
                 <h1>{member.First_name + " " + member.Last_name}</h1>
               </div>

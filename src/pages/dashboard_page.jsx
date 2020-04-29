@@ -250,12 +250,6 @@ const Dashboard_page = () => {
                       );
                     })}
                   </select>
-                  {/* <input
-                    ref={register()}
-                    className="mt-2 block w-full rounded-lg bg-white px-3 py-2 leading-tight focus:outline-none bg-gray-200 focus:bg-gray-100 "
-                    name="Created_By"
-                    type="text"
-                  /> */}
                 </div>
                 <div className="mb-4">
                   <label
@@ -296,7 +290,6 @@ const Dashboard_page = () => {
                     </h1>
                   )}
                 </div>
-
                 <div className="flex justify-end my-4">
                   <button
                     type="submit"

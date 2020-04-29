@@ -112,11 +112,11 @@ const Dashboard = () => {
             </Link>
           </div>
         </div>
-        <div className="flex justify-center pt-96">
+        {/* <div className="flex justify-center pt-96">
           <button className="btn bg-red-200 md:px-8 hover:bg-red-400 lg:px-16">
             Sign Out
           </button>
-        </div>
+        </div> */}
         <span className="text-xs text-center block text-gray-600 p-12">
           Built by Louis, Dat, Jared
         </span>
