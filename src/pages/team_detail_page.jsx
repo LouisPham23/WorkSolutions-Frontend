@@ -149,9 +149,9 @@ const Team_detail_page = (props) => {
               {addMemberError}
             </div>
           ) : null}
-          <h1 className="font-bold text-2xl text-center pt-4">
+          {/* <h1 className="font-bold text-2xl text-center pt-4">
             {emps[0].Team_name}
-          </h1>
+          </h1> */}
           {emps.map((member) => {
             return (
               <div
