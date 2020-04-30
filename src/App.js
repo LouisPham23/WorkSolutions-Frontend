@@ -15,7 +15,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 w-screen flex">
       <Router>
-        <div className="w-1/4 bg-white xl:w-1/5">
+        <div className="w-1/4 bg-white xl:w-1/5 ">
           <Dashboard />
         </div>
         <div className="w-3/4 min-h-screen bg-gray-100 xl:w-4/5">

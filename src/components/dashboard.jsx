@@ -23,7 +23,7 @@ const Dashboard = () => {
           </span>
         </h1>
       </div>
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between ">
         <div
           className={`flex sm:px-2 md:px-8 mt-8 hover:text-gray-800 text-gray-600 lg:px-16 xl:px-18 ${
             selectDash ? "border-r-4 border-indigo-500 text-gray-800" : ""
@@ -117,7 +117,7 @@ const Dashboard = () => {
             Sign Out
           </button>
         </div> */}
-        <span className="text-xs text-center block text-gray-600 absolute lg:p-16 p-8 xl:p-24 bottom-0 left-0">
+        <span className="text-xs text-center block text-gray-600 absolute lg:p-16 md:p-8 p-3 xl:p-24 bottom-0 left-0">
           Built by Louis, Dat, Jared
         </span>
       </div>
