@@ -150,7 +150,7 @@ const Team_detail_page = (props) => {
             </div>
           ) : null}
           <h1 className="font-bold text-2xl text-center pt-4">
-            {emps ? emps[0].Team_name : ""}
+            {emps[0].Team_name}
           </h1>
           {emps.map((member) => {
             return (

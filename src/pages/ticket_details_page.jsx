@@ -145,7 +145,7 @@ const TicketDetails = (props) => {
               <span className="text-gray-600">{Ticket.Description}</span>
             </h1>
           </div>
-          <div className="mt-16">
+          <div className="mt-8">
             <button
               className="bg-gray-300 hover:bg-gray-500 py-1 px-1 rounded focus:outline-none ml-32"
               type="submit"
@@ -154,10 +154,16 @@ const TicketDetails = (props) => {
               <Edit />
             </button>
             {showEditForm ? (
-              <div className="absolute top-0 right-0 mt-72 mr-4 w-84 ">
+              <div className="absolute top-0 right-0 mt-64 mr-4 w-84 ">
                 <div className="bg-gray-400 rounded-lg shadow-xl bg-white ">
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="px-4 pt-4">
+                      <label
+                        htmlFor="Title"
+                        className="block text-gray-900 leading-tight font-semibold text-center font-bold"
+                      >
+                        Edit Ticket
+                      </label>
                       <label
                         htmlFor="Title"
                         className="block text-gray-900 leading-tight font-semibold"
