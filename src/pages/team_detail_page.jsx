@@ -57,7 +57,7 @@ const Team_detail_page = (props) => {
         } else {
           setAddMemberError("");
           getMembers();
-          console.log("Success:", data);
+          // console.log("Success:", data);
         }
       })
       .catch((error) => {
@@ -150,7 +150,7 @@ const Team_detail_page = (props) => {
             </div>
           ) : null}
           {/* <h1 className="font-bold text-2xl text-center pt-4">
-            {emps[0].Team_name}
+            {emps}
           </h1> */}
           {emps.map((member) => {
             return (
