@@ -13,7 +13,7 @@ const User_page = () => {
   const [depts, setDepartments] = useState([]);
 
   let url = "";
-  if (process.env === "development") {
+  if (process.env.NODE_ENV === "development") {
     url = `http://localhost:3030`;
   } else {
     url = `https://csc174proj.herokuapp.com`;
@@ -43,9 +43,14 @@ const User_page = () => {
     getEmployee();
     getDepartments();
   }, []);
-  console.log(depts);
 
   const createEmployee = async (data) => {
+    if (data.Type === "D") {
+      delete data.Levels;
+    } else if (data.Type === "S") {
+      delete data.Specialty;
+    }
+
     await fetch(`${url}/employee`, {
       method: "POST", // or 'PUT'
       headers: {
@@ -58,10 +63,11 @@ const User_page = () => {
         if (response.ok) {
           getEmployee();
           setCreateEmployeeLoading(false);
+          console.log("success");
         }
       })
       .then(() => {
-        setModalOpen(false);
+        // setModalOpen(false);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -70,11 +76,9 @@ const User_page = () => {
 
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
-    // createEmployee(data);
+    createEmployee(data);
     console.log(data);
   };
-
-  console.log(employeeType);
 
   return (
     <div className="">
@@ -246,7 +250,7 @@ const User_page = () => {
                           type="text"
                           placeholder="Network Security, Web Developer, . . ."
                         />
-                        {errors.Title && (
+                        {errors.Specialty && (
                           <h1 className="pt-1 text-red-600">
                             Specialty is required*
                           </h1>
@@ -268,7 +272,7 @@ const User_page = () => {
                           name="Levels"
                           type="text"
                         />
-                        {errors.Title && (
+                        {errors.Levels && (
                           <h1 className="pt-1 text-red-600">
                             Levels is required*
                           </h1>
