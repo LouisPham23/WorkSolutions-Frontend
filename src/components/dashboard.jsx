@@ -90,7 +90,7 @@ const Dashboard = () => {
             </Link>
           </div>
         </div>
-        <div
+        {/* <div
           className={`flex sm:px-2 md:px-8 mt-8 hover:text-gray-800 text-gray-600 lg:px-16 xl:px-18 ${
             selectSetting ? "border-r-4 border-indigo-500 text-gray-800" : ""
           }`}
@@ -111,7 +111,7 @@ const Dashboard = () => {
               <h1 className="font-bold pl-4 text-sm">Settings</h1>
             </Link>
           </div>
-        </div>
+        </div> */}
         {/* <div className="flex justify-center pt-96">
           <button className="btn bg-red-200 md:px-8 hover:bg-red-400 lg:px-16">
             Sign Out
