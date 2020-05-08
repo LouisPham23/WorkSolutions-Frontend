@@ -117,9 +117,6 @@ const Dashboard = () => {
             Sign Out
           </button>
         </div> */}
-        <span className="text-xs text-center block text-gray-600 absolute lg:p-16 md:p-8 p-3 xl:p-24 bottom-0 left-0">
-          Built by Louis, Dat, Jared
-        </span>
       </div>
     </div>
   );

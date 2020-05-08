@@ -1,12 +1,19 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Edit, ArrowLeft } from "react-feather";
+import { Edit, ArrowLeft, Trash } from "react-feather";
 import Moment from "react-moment";
 import Progress from "../components/top-loading-board/progress";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import moment from "moment";
 
 const TicketDetails = (props) => {
+  let history = useHistory();
+
+  function goHome() {
+    history.push("/");
+  }
+
   const [Ticket, setTicket] = useState({});
   const [loading, setIsLoading] = useState(true);
   const [err, setErr] = useState(false);
@@ -57,6 +64,21 @@ const TicketDetails = (props) => {
         console.error("Error:", error);
       });
   };
+  const deleteTicket = async () => {
+    await fetch(`${url}/ticket/${ticket_number}`, {
+      method: "Delete",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     getTicket();
@@ -66,7 +88,6 @@ const TicketDetails = (props) => {
     getEmployees();
   }, []);
 
-  console.log(Ticket);
   const [showEditForm, setShowEditForm] = useState(false);
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
@@ -147,11 +168,21 @@ const TicketDetails = (props) => {
           </div>
           <div className="mt-8">
             <button
-              className="bg-gray-300 hover:bg-gray-500 py-1 px-1 rounded focus:outline-none ml-32"
+              className="bg-gray-300 hover:bg-green-500 py-1 px-1 rounded focus:outline-none ml-32"
               type="submit"
               onClick={() => setShowEditForm(!showEditForm)}
             >
               <Edit />
+            </button>
+            <button
+              className="bg-gray-300 hover:bg-red-500 py-1 ml-4 px-1 rounded focus:outline-none"
+              type="submit"
+              onClick={() => {
+                deleteTicket();
+                goHome();
+              }}
+            >
+              <Trash />
             </button>
             {showEditForm ? (
               <div className="absolute top-0 right-0 mt-64 mr-4 w-84 ">
