@@ -177,8 +177,8 @@ const TicketDetails = (props) => {
             <button
               className="bg-gray-300 hover:bg-red-500 py-1 ml-4 px-1 rounded focus:outline-none"
               type="submit"
-              onClick={() => {
-                deleteTicket();
+              onClick={async () => {
+                await deleteTicket();
                 goHome();
               }}
             >

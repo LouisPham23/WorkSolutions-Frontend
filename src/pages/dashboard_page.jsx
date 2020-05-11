@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Ticket from "../components/ticket";
 import Progress from "../components/top-loading-board/progress";
 import { useForm } from "react-hook-form";
+import { Filter } from "react-feather";
 
 const Dashboard_page = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -10,6 +11,8 @@ const Dashboard_page = () => {
 
   const [ticket, setTicket] = useState([]);
   const [emps, setEmps] = useState([]);
+
+  const [search, setSearchTerm] = useState("");
 
   let url = "";
   if (process.env.NODE_ENV === "development") {
@@ -73,6 +76,16 @@ const Dashboard_page = () => {
         console.error("Error:", error);
       });
   };
+
+  const filter = (e) => {
+    // ticket.filter((ticket) => ticket.Title.includes(search));
+    e.preventDefault();
+    let filter = ticket.filter((item) => item.Ticket_number == search);
+    setTicket(filter);
+    if (!search) {
+      getTickets();
+    }
+  };
   const [createTicketLoading, setCreateTicketLoading] = useState(false);
 
   const { register, handleSubmit, errors } = useForm();
@@ -84,13 +97,24 @@ const Dashboard_page = () => {
       <Progress isAnimating={isLoading} />
       <h1 className="font-bold px-4 mx-1 mt-8 mb-8 md:mb-0">Dashboard</h1>
       <div className="flex mb-8 justify-center">
-        <input
-          type="text"
-          name="search_ticket"
-          id="search_ticket"
-          placeholder="Search..."
-          className="transition-colors duration-100 ease-in-out focus:outline-0 border border-transparent focus:bg-white focus:border-gray-300 placeholder-gray-600 rounded-lg bg-gray-300 px-4 outline-none mx-8 leading-normal"
-        />
+        <form onSubmit={filter}>
+          <input
+            type="text"
+            name="search_ticket"
+            id="search_ticket"
+            placeholder="Search by ticket #"
+            className="transition-colors duration-100 ease-in-out focus:outline-0 border border-transparent focus:bg-white focus:border-gray-300 placeholder-gray-600 rounded-lg bg-gray-300 px-4 outline-none mx-8 leading-normal py-2"
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+          />
+          <button
+            className="btn bg-white hover:bg-gray-400 focus:outline-none mr-8"
+            type="submit"
+          >
+            Search
+          </button>
+        </form>
         <button
           className="btn bg-white hover:bg-gray-400 focus:outline-none mr-8"
           onClick={() => setModalOpen(true)}

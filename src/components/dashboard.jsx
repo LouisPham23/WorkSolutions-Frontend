@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Home, Key, Calendar, Settings, User } from "react-feather";
+import { Home, Package } from "react-feather";
 import { Link } from "react-router-dom";
 import { TiGroup } from "react-icons/ti";
 import { Users } from "react-feather";
@@ -19,7 +19,7 @@ const Dashboard = () => {
         <h1 className="font-bold text-lg text-center">
           WorksSolutions
           <span className="border-2 border-indigo-300 ml-2 rounded">
-            <Key className="inline-block fill-current text-indigo-600 self-center h-8 w-8 px-1" />
+            <Package className="inline-block text-indigo-600 self-center h-8 w-8 px-1" />
           </span>
         </h1>
       </div>
